@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Extreme Technologies | Premium Digital Services</title>
+  <meta name="description" content="Extreme Technologies offers website design, SEO, Google Business Profile, social media management, and paid advertising services for businesses across Nigeria." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ----- RESET & VARIABLES ----- */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+      --deep-navy: #101721;
+      --navy-light: #1a2332;
+      --signal-blue: #0267DB;
+      --blue-light: #4a9eff;
+      --white: #FFFFFF;
+      --steel-grey: #C0C0C0;
+      --body-text: #6c757d;
+      --section-alt: #f8f9fa;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Lato', sans-serif;
+      color: var(--body-text);
+      background-color: var(--white);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--deep-navy);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    a {
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    ul {
+      list-style: none;
+    }
+    .container {
+      max-width: 1250px;
+      margin: 0 auto;
+      padding: 0 25px;
+    }
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* ----- REVEAL (IntersectionObserver) ----- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ----- HEADER & NAVIGATION (fixed) ----- */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(16, 23, 33, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 25px;
+      max-width: 1250px;
+      margin: 0 auto;
+    }
+    .logo h2 {
+      color: var(--white);
+      margin: 0;
+      font-size: 1.6rem;
+    }
+    .logo span {
+      color: var(--signal-blue);
+    }
+
+    /* desktop nav */
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    .desktop-nav a {
+      color: var(--steel-grey);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+    .desktop-nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--signal-blue);
+      transition: width 0.3s;
+    }
+    .desktop-nav a:hover {
+      color: var(--white);
+    }
+    .desktop-nav a:hover::after {
+      width: 100%;
+    }
+    .desktop-nav a.active {
+      color: var(--white);
+    }
+    .desktop-nav a.active::after {
+      width: 100%;
+    }
+
+    .cta-btn {
+      background: linear-gradient(135deg, var(--signal-blue), var(--blue-light));
+      color: var(--white);
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-weight: 700;
+      box-shadow: 0 5px 15px rgba(2, 103, 219, 0.4);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: inline-block;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(2, 103, 219, 0.5);
+    }
+
+    /* mobile toggle */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.8rem;
+      cursor: pointer;
+      padding: 0 8px;
+    }
+    .menu-toggle:focus-visible {
+      outline: 2px solid var(--signal-blue);
+      outline-offset: 4px;
+    }
+
+    /* mobile nav (hidden by default) */
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background: var(--deep-navy);
+      padding: 20px 25px;
+      gap: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .mobile-nav.open {
+      display: flex;
+    }
+    .mobile-nav a {
+      color: var(--steel-grey);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      padding: 6px 0;
+    }
+    .mobile-nav a:hover {
+      color: var(--white);
+    }
+    .mobile-nav a.active {
+      color: var(--white);
+    }
+
+    /* ----- HERO (services) ----- */
+    .services-hero {
+      padding: 160px 0 80px;
+      background: var(--deep-navy);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .services-hero::after {
+      content: 'ET';
+      position: absolute;
+      bottom: -40px;
+      right: -40px;
+      font-size: 20rem;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.02);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .services-hero h1 {
+      color: var(--white);
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .services-hero p {
+      color: var(--steel-grey);
+      font-size: 1.3rem;
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ----- SECTION HEADER ----- */
+    .section-header {
+      margin-bottom: 60px;
+      text-align: center;
+    }
+    .section-header h2 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+    }
+    .section-header p {
+      font-size: 1.1rem;
+      color: var(--body-text);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ----- SERVICES GRID ----- */
+    .services {
+      padding: 100px 0;
+      background: var(--white);
+    }
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+    .service-card {
+      background: var(--section-alt);
+      padding: 40px 35px;
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      border: 1px solid transparent;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--signal-blue);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-10px);
+      background: var(--white);
+      border-color: #eef2f7;
+      box-shadow: 0 20px 50px rgba(16, 23, 33, 0.08);
+    }
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+    .service-icon {
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, var(--signal-blue), var(--blue-light));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 25px;
+      display: inline-block;
+    }
+    .service-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+    }
+    .service-card p {
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    /* ----- PROCESS ----- */
+    .process {
+      padding: 100px 0;
+      background: var(--deep-navy);
+    }
+    .process h2 {
+      color: var(--white);
+      text-align: center;
+      font-size: 2.8rem;
+      margin-bottom: 50px;
+    }
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+    .process-step {
+      background: var(--navy-light);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 40px 35px;
+      border-radius: 20px;
+      position: relative;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .process-step:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+    .step-num {
+      font-size: 4rem;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.04);
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      line-height: 1;
+    }
+    .process-step h3 {
+      color: var(--white);
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+    .process-step p {
+      color: var(--steel-grey);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    /* ----- PRICING ----- */
+    .pricing {
+      padding: 100px 0;
+      background: var(--section-alt);
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+    .price-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 40px 35px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+    .price-card.featured {
+      border: 2px solid var(--signal-blue);
+    }
+    .price-card.featured::before {
+      content: 'Most Popular';
+      position: absolute;
+      top: 18px;
+      right: -30px;
+      transform: rotate(45deg);
+      background: var(--signal-blue);
+      color: white;
+      padding: 5px 40px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      width: 120px;
+    }
+    .price-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    .price-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+    .price-card .price {
+      font-size: 2.5rem;
+      color: var(--signal-blue);
+      font-weight: 900;
+      margin-bottom: 20px;
+    }
+    .price-card .price small {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--body-text);
+    }
+    .price-card ul {
+      margin-bottom: 30px;
+      text-align: left;
+    }
+    .price-card ul li {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.95rem;
+    }
+    .price-card ul li i {
+      color: var(--signal-blue);
+      font-size: 1rem;
+      width: 1.2rem;
+      text-align: center;
+    }
+
+    /* ----- TARGET INDUSTRIES ----- */
+    .target {
+      padding: 100px 0;
+      background: var(--white);
+      text-align: center;
+    }
+    .industry-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 40px;
+    }
+    .industry-tag {
+      background: var(--section-alt);
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-weight: 600;
+      color: var(--deep-navy);
+      border: 1px solid #eef2f7;
+      transition: all 0.3s;
+      font-size: 0.95rem;
+    }
+    .industry-tag:hover {
+      background: var(--signal-blue);
+      color: var(--white);
+      border-color: var(--signal-blue);
+      transform: translateY(-2px);
+    }
+
+    /* ----- TRUST (dark) ----- */
+    .trust {
+      padding: 80px 0;
+      background: var(--deep-navy);
+      color: var(--steel-grey);
+    }
+    .trust-inner {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .trust-img {
+      flex: 1;
+    }
+    .trust-img img {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    .trust-text {
+      flex: 1;
+    }
+    .trust-text h2 {
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+    .trust-quote {
+      font-size: 1.3rem;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--steel-grey);
+    }
+
+    /* ----- CONTACT (dark form) ----- */
+    .contact {
+      padding: 120px 0;
+      background: var(--deep-navy);
+    }
+    .contact-card {
+      background: linear-gradient(145deg, var(--navy-light), var(--deep-navy));
+      border-radius: 30px;
+      padding: 50px;
+      max-width: 900px;
+      margin: 0 auto;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+    }
+    .contact-card h2 {
+      color: var(--white);
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--steel-grey);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: var(--deep-navy);
+      border: 1px solid #2a3b54;
+      color: var(--white);
+      padding: 15px 20px;
+      border-radius: 10px;
+      font-family: 'Lato', sans-serif;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.3s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--signal-blue);
+      background: #161f2e;
+    }
+    .contact-info {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 1px solid #2a3b54;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .contact-info a,
+    .contact-info span {
+      color: var(--steel-grey);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .contact-info a:hover {
+      color: var(--white);
+    }
+    .contact-info i {
+      color: var(--signal-blue);
+    }
+
+    /* ----- FOOTER ----- */
+    footer {
+      background-color: #0a0e14;
+      padding: 40px 0;
+      text-align: center;
+    }
+    footer p {
+      color: #7d8fa9;
+      font-size: 0.9rem;
+    }
+    footer a {
+      color: var(--blue-light);
+    }
+
+    /* ----- WHATSAPP FLOAT ----- */
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background-color: #25d366;
+      color: white;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 30px;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+      z-index: 999;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+
+    /* ----- RESPONSIVE ----- */
+    @media (max-width: 992px) {
+      .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .process-grid {
+        grid-template-columns: 1fr;
+      }
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      .trust-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .desktop-nav {
+        display: none;
+      }
+      .menu-toggle {
+        display: block;
+      }
+      .grid-container {
+        grid-template-columns: 1fr;
+      }
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .form-group.full-width {
+        grid-column: span 1;
+      }
+      .contact-card {
+        padding: 30px;
+      }
+      .services-hero h1 {
+        font-size: 2.5rem;
+      }
+      .section-header h2 {
+        font-size: 2rem;
+      }
+      .process h2 {
+        font-size: 2rem;
+      }
+      .contact-info {
+        flex-direction: column;
+        align-items: center;
+      }
+      .services-hero {
+        padding: 130px 0 60px;
+      }
+      .price-card.featured::before {
+        top: 12px;
+        right: -35px;
+        padding: 4px 35px;
+        font-size: 0.7rem;
+        width: 110px;
+      }
+      section {
+        scroll-margin-top: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="nav-container">
+      <div class="logo">
+        <h2>EXTREME <span>TECH</span></h2>
+      </div>
+
+      <!-- Desktop Nav -->
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html" class="active">Services</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <a href="contact.html" class="cta-btn">Free Consultation</a>
+
+      <!-- Mobile Toggle -->
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileNav" aria-label="Toggle navigation menu">
+        <i class="fas fa-bars" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Nav -->
+    <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html" class="active">Services</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <!-- ===== SERVICES PAGE ===== -->
+  <main>
+
+    <!-- Hero -->
+    <section class="services-hero">
+      <div class="container">
+        <h1>Premium Digital Services</h1>
+        <p>Everything your business needs to get found, build trust, and grow online. We handle the digital side so you can focus on running your business.</p>
+      </div>
+    </section>
+
+    <!-- Core Services Grid -->
+    <section class="services">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>What We Do</h2>
+          <p>Our complete suite of digital solutions designed for maximum reach and ROI.</p>
+        </div>
+        <div class="grid-container">
+          <div class="service-card reveal">
+            <i class="fas fa-paint-brush service-icon"></i>
+            <h3>Web Design</h3>
+            <p>We design clean, modern websites that reflect your brand and are built to convert visitors into paying customers. Every site is mobile-friendly, fast-loading, and easy to navigate.</p>
+          </div>
+          <div class="service-card reveal">
+            <i class="fas fa-code service-icon"></i>
+            <h3>Web Development</h3>
+            <p>From simple business websites to more advanced, feature-rich platforms, we build reliable sites that work the way your business needs them to — and grow with you as you do.</p>
+          </div>
+          <div class="service-card reveal">
+            <i class="fas fa-chart-line service-icon"></i>
+            <h3>SEO</h3>
+            <p>We help your business show up when customers search for what you offer. Through keyword optimization, technical fixes, and content strategy, we improve your visibility on Google over time.</p>
+          </div>
+          <div class="service-card reveal">
+            <i class="fas fa-map-marker-alt service-icon"></i>
+            <h3>Google Business Profile</h3>
+            <p>We create, verify, and optimize your profile so your business appears accurately on Google Search and Maps — complete with correct hours, contact details, photos, and categories.</p>
+          </div>
+          <div class="service-card reveal">
+            <i class="fas fa-share-alt service-icon"></i>
+            <h3>Social Media Management</h3>
+            <p>We manage a consistent, professional presence for your business across Facebook, Instagram, and other platforms — planning, posting, and engaging so you don't have to.</p>
+          </div>
+          <div class="service-card reveal">
+            <i class="fas fa-bullhorn service-icon"></i>
+            <h3>Branding &amp; Promotion</h3>
+            <p>We help build a consistent, credible identity across every customer touchpoint — from your logo and colors to how your business shows up online and off.</p>
+          </div>
+          <div class="service-card reveal">
+            <i class="fas fa-ad service-icon"></i>
+            <h3>Meta (Facebook &amp; Instagram) Ads</h3>
+            <p>We plan and run targeted ad campaigns on Facebook and Instagram, built to reach the right audience and turn ad spend into real enquiries and sales.</p>
+          </div>
+          <div class="service-card reveal">
+            <i class="fas fa-google service-icon"></i>
+            <h3>Google Ads</h3>
+            <p>We run paid search campaigns that put your business in front of customers who are actively searching for what you sell — with budgets managed for maximum return.</p>
+          </div>
+          <div class="service-card reveal">
+            <i class="fas fa-lightbulb service-icon"></i>
+            <h3>Content Strategy</h3>
+            <p>We plan purposeful content — for your website, blog, and social channels — that builds trust with your audience and supports your SEO at the same time.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process">
+      <div class="container">
+        <h2 class="reveal">How We Work</h2>
+        <div class="process-grid">
+          <div class="process-step reveal">
+            <span class="step-num">01</span>
+            <h3>Discover &amp; Audit</h3>
+            <p>We analyze your current digital presence, find gaps, and identify exactly where your customers are searching for you.</p>
+          </div>
+          <div class="process-step reveal">
+            <span class="step-num">02</span>
+            <h3>Build &amp; Optimize</h3>
+            <p>We create your website, optimize your Google Business Profile, set up social channels, and launch targeted campaigns.</p>
+          </div>
+          <div class="process-step reveal">
+            <span class="step-num">03</span>
+            <h3>Grow &amp; Scale</h3>
+            <p>We monitor results, tweak strategies, and scale what works to consistently bring you more customers and sales.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Packages -->
+    <section class="pricing">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Simple Packages</h2>
+          <p>Custom packages available for organizations. Contact us for a tailored quote.</p>
+        </div>
+        <div class="pricing-grid">
+          <div class="price-card reveal">
+            <h3>Basic</h3>
+            <div class="price">₦N/A <small>/ project</small></div>
+            <ul>
+              <li><i class="fas fa-check"></i> Map Listing + Basic Info</li>
+              <li><i class="fas fa-check"></i> 5 Photos Uploaded</li>
+              <li><i class="fas fa-check"></i> Verification Support</li>
+            </ul>
+            <a href="contact.html" class="cta-btn" style="display:inline-block;">Get Started</a>
+          </div>
+          <div class="price-card featured reveal">
+            <h3>Standard</h3>
+            <div class="price">₦N/A <small>/ project</small></div>
+            <ul>
+              <li><i class="fas fa-check"></i> Full Setup + Optimization</li>
+              <li><i class="fas fa-check"></i> 10-20 Photos Uploaded</li>
+              <li><i class="fas fa-check"></i> Product/Service Listings</li>
+              <li><i class="fas fa-check"></i> Review Strategy</li>
+            </ul>
+            <a href="contact.html" class="cta-btn" style="display:inline-block;">Get Started</a>
+          </div>
+          <div class="price-card reveal">
+            <h3>Premium</h3>
+            <div class="price">₦N/A <small>/ project</small></div>
+            <ul>
+              <li><i class="fas fa-check"></i> GPS Mapping</li>
+              <li><i class="fas fa-check"></i> Branding + Social Media</li>
+              <li><i class="fas fa-check"></i> Review Management</li>
+              <li><i class="fas fa-check"></i> Ongoing Support</li>
+            </ul>
+            <a href="contact.html" class="cta-btn" style="display:inline-block;">Get Started</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Target Industries -->
+    <section class="target">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Who We Serve</h2>
+          <p>We tailor our solutions for businesses of all sizes, across all industries.</p>
+        </div>
+        <div class="industry-grid reveal">
+          <span class="industry-tag">Restaurants</span>
+          <span class="industry-tag">Hotels</span>
+          <span class="industry-tag">Schools</span>
+          <span class="industry-tag">Clinics &amp; Hospitals</span>
+          <span class="industry-tag">Pharmacies</span>
+          <span class="industry-tag">Retail Shops</span>
+          <span class="industry-tag">Beauty Salons</span>
+          <span class="industry-tag">NGOs</span>
+          <span class="industry-tag">Farms</span>
+          <span class="industry-tag">Professional Services</span>
+          <span class="industry-tag">Local SMEs</span>
+          <span class="industry-tag">E-commerce</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust / Guru Quote -->
+    <section class="trust">
+      <div class="container trust-inner">
+        <div class="trust-img reveal">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="SEO Strategist in Action" loading="lazy">
+        </div>
+        <div class="trust-text reveal">
+          <h2>The Guru Behind the Growth</h2>
+          <p class="trust-quote">"We put businesses on the map. From Oyo to Akwa Ibom, we make sure your customers can find you, trust you, and reach you—no matter where they are searching."</p>
+          <a href="contact.html" class="cta-btn" style="margin-top:20px;display:inline-block;">Work With Us</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact" style="scroll-margin-top:80px;">
+      <div class="container">
+        <div class="contact-card reveal">
+          <h2>Let's Talk Growth</h2>
+          <form action="https://formspree.io/f/yourFormID" method="POST">
+            <!-- ⚠️ Replace 'yourFormID' with a real Formspree endpoint or use your own backend -->
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" placeholder="John Doe" required>
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="+234..." required>
+              </div>
+              <div class="form-group full-width">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="your@email.com" required>
+              </div>
+              <div class="form-group full-width">
+                <label for="service">Service Interested In</label>
+                <select id="service" name="service">
+                  <option value="Web Design">Web Design</option>
+                  <option value="Web Development">Web Development</option>
+                  <option value="SEO">SEO</option>
+                  <option value="Google Business Profile">Google Business Profile</option>
+                  <option value="Social Media Management">Social Media Management</option>
+                  <option value="Meta Ads">Meta (Facebook &amp; Instagram) Ads</option>
+                  <option value="Google Ads">Google Ads</option>
+                  <option value="Branding">Branding &amp; Promotion</option>
+                  <option value="Content Strategy">Content Strategy</option>
+                </select>
+              </div>
+              <div class="form-group full-width">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" placeholder="Tell us about your business..."></textarea>
+              </div>
+              <div class="form-group full-width">
+                <button type="submit" class="cta-btn" style="width:100%;justify-content:center;">Send Message</button>
+              </div>
+            </div>
+          </form>
+
+          <div class="contact-info">
+            <a href="mailto:asikpoemediong@gmail.com"><i class="fas fa-envelope"></i> asikpoemediong@gmail.com</a>
+            <a href="tel:+2347016527052"><i class="fas fa-phone"></i> +234 701 652 7052</a>
+            <span><i class="fas fa-map-marker-alt"></i> Uyo, Akwa Ibom</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Extreme Technologies. All rights reserved. | <a href="mailto:asikpoemediong@gmail.com">asikpoemediong@gmail.com</a></p>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP FLOAT -->
+  <a href="https://wa.me/2347016527052?text=Hello%20Extreme%20Technologies!%20I%20want%20to%20grow%20my%20business." class="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+  </a>
+
+  <!-- SCRIPTS -->
+  <script>
+    (function() {
+      'use strict';
+
+      // ----- MOBILE MENU -----
+      const toggle = document.getElementById('menuToggle');
+      const mobileNav = document.getElementById('mobileNav');
+      const menuLinks = mobileNav.querySelectorAll('a');
+
+      function openMenu() {
+        mobileNav.classList.add('open');
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>';
+      }
+
+      function closeMenu() {
+        mobileNav.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.innerHTML = '<i class="fas fa-bars" aria-hidden="true"></i>';
+      }
+
+      function toggleMenu() {
+        if (mobileNav.classList.contains('open')) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      }
+
+      toggle.addEventListener('click', toggleMenu);
+
+      menuLinks.forEach(function(link) {
+        link.addEventListener('click', closeMenu);
+      });
+
+      document.addEventListener('click', function(e) {
+        const header = document.querySelector('header');
+        if (!header.contains(e.target) && mobileNav.classList.contains('open')) {
+          closeMenu();
+        }
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && mobileNav.classList.contains('open')) {
+          closeMenu();
+          toggle.focus();
+        }
+      });
+
+      // ----- SCROLL REVEAL (IntersectionObserver) -----
+      const revealElements = document.querySelectorAll('.reveal');
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        }, {
+          threshold: 0.15,
+          rootMargin: '0px 0px -40px 0px'
+        });
+
+        revealElements.forEach(function(el) {
+          observer.observe(el);
+        });
+      } else {
+        revealElements.forEach(function(el) {
+          el.classList.add('visible');
+        });
+      }
+
+    })();
+  </script>
+
+</body>
+</html>

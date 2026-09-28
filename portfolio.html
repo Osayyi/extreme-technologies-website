@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Extreme Technologies | Our Work & Portfolio</title>
+  <meta name="description" content="Extreme Technologies portfolio: See how we've helped businesses across Nigeria get found online through website design, SEO, Google Business Profile, and digital marketing." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ----- RESET & VARIABLES ----- */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+      --deep-navy: #101721;
+      --navy-light: #1a2332;
+      --signal-blue: #0267DB;
+      --blue-light: #4a9eff;
+      --white: #FFFFFF;
+      --steel-grey: #C0C0C0;
+      --body-text: #6c757d;
+      --section-alt: #f8f9fa;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Lato', sans-serif;
+      color: var(--body-text);
+      background-color: var(--white);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--deep-navy);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    a {
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    ul {
+      list-style: none;
+    }
+    .container {
+      max-width: 1250px;
+      margin: 0 auto;
+      padding: 0 25px;
+    }
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* ----- REVEAL (IntersectionObserver) ----- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ----- HEADER & NAVIGATION (fixed) ----- */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(16, 23, 33, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 25px;
+      max-width: 1250px;
+      margin: 0 auto;
+    }
+    .logo h2 {
+      color: var(--white);
+      margin: 0;
+      font-size: 1.6rem;
+    }
+    .logo span {
+      color: var(--signal-blue);
+    }
+
+    /* desktop nav */
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    .desktop-nav a {
+      color: var(--steel-grey);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+    .desktop-nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--signal-blue);
+      transition: width 0.3s;
+    }
+    .desktop-nav a:hover {
+      color: var(--white);
+    }
+    .desktop-nav a:hover::after {
+      width: 100%;
+    }
+    .desktop-nav a.active {
+      color: var(--white);
+    }
+    .desktop-nav a.active::after {
+      width: 100%;
+    }
+
+    .cta-btn {
+      background: linear-gradient(135deg, var(--signal-blue), var(--blue-light));
+      color: var(--white);
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-weight: 700;
+      box-shadow: 0 5px 15px rgba(2, 103, 219, 0.4);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: inline-block;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(2, 103, 219, 0.5);
+    }
+
+    /* mobile toggle */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.8rem;
+      cursor: pointer;
+      padding: 0 8px;
+    }
+    .menu-toggle:focus-visible {
+      outline: 2px solid var(--signal-blue);
+      outline-offset: 4px;
+    }
+
+    /* mobile nav (hidden by default) */
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background: var(--deep-navy);
+      padding: 20px 25px;
+      gap: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .mobile-nav.open {
+      display: flex;
+    }
+    .mobile-nav a {
+      color: var(--steel-grey);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      padding: 6px 0;
+    }
+    .mobile-nav a:hover {
+      color: var(--white);
+    }
+    .mobile-nav a.active {
+      color: var(--white);
+    }
+
+    /* ----- SECTION HEADER ----- */
+    .section-header {
+      margin-bottom: 60px;
+      text-align: center;
+    }
+    .section-header h2 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+    }
+    .section-header p {
+      font-size: 1.1rem;
+      color: var(--body-text);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ----- HERO (portfolio) ----- */
+    .portfolio-hero {
+      padding: 160px 0 80px;
+      background: var(--deep-navy);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .portfolio-hero::after {
+      content: 'ET';
+      position: absolute;
+      bottom: -40px;
+      right: -40px;
+      font-size: 20rem;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.02);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .portfolio-hero h1 {
+      color: var(--white);
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .portfolio-hero p {
+      color: var(--steel-grey);
+      font-size: 1.3rem;
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ----- BEFORE & AFTER ----- */
+    .before-after {
+      padding: 100px 0;
+      background: var(--deep-navy);
+    }
+    .before-after h2 {
+      color: var(--white);
+      text-align: center;
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+    }
+    .before-after .subtitle {
+      text-align: center;
+      color: var(--steel-grey);
+      margin-bottom: 50px;
+      font-size: 1.1rem;
+    }
+    .ba-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .ba-card {
+      background: var(--navy-light);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .ba-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    .ba-label {
+      text-align: center;
+      padding: 15px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .ba-label.before {
+      color: var(--steel-grey);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .ba-label.after {
+      color: var(--signal-blue);
+      background: rgba(2, 103, 219, 0.15);
+    }
+    .ba-image {
+      height: 350px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* ----- RESULTS METRICS ----- */
+    .results {
+      padding: 80px 0;
+      background: var(--section-alt);
+    }
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      text-align: center;
+    }
+    .result-stat h3 {
+      font-size: 3.5rem;
+      color: var(--signal-blue);
+      margin-bottom: 10px;
+    }
+    .result-stat p {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--deep-navy);
+    }
+
+    /* ----- PORTFOLIO GRID (case studies) ----- */
+    .portfolio {
+      padding: 100px 0;
+      background: var(--white);
+    }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 30px;
+    }
+    .portfolio-item {
+      background: var(--section-alt);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      box-shadow: 0 10px 30px rgba(16, 23, 33, 0.05);
+    }
+    .portfolio-item:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(16, 23, 33, 0.15);
+    }
+    .portfolio-image {
+      height: 280px;
+      background-size: cover;
+      background-position: center;
+      background-color: var(--deep-navy);
+    }
+    .odogwu-bg {
+      background-image: url('https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
+    }
+    .shepherd-bg {
+      background-image: url('https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
+    }
+    .navannah-bg {
+      background-image: url('https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
+    }
+    .portfolio-info {
+      padding: 30px;
+    }
+    .portfolio-info h3 {
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+    }
+    .portfolio-info .tag {
+      font-size: 0.85rem;
+      color: var(--signal-blue);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .portfolio-info .desc {
+      font-size: 1rem;
+      color: var(--body-text);
+      line-height: 1.7;
+    }
+
+    /* ----- TESTIMONIALS ----- */
+    .testimonials {
+      padding: 100px 0;
+      background: var(--section-alt);
+    }
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+    .testimonial-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 40px 35px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+    }
+    .testimonial-card i.fa-quote-left {
+      font-size: 2rem;
+      color: var(--signal-blue);
+      margin-bottom: 20px;
+      opacity: 0.4;
+    }
+    .testimonial-card p {
+      font-size: 1.05rem;
+      font-style: italic;
+      margin-bottom: 20px;
+      color: var(--deep-navy);
+      line-height: 1.7;
+    }
+    .testimonial-author {
+      font-weight: 800;
+      font-family: 'Montserrat', sans-serif;
+      color: var(--deep-navy);
+    }
+    .testimonial-role {
+      font-size: 0.9rem;
+      color: var(--body-text);
+    }
+
+    /* ----- TRUST (dark) ----- */
+    .trust {
+      padding: 80px 0;
+      background: var(--deep-navy);
+      color: var(--steel-grey);
+    }
+    .trust-inner {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .trust-img {
+      flex: 1;
+    }
+    .trust-img img {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    .trust-text {
+      flex: 1;
+    }
+    .trust-text h2 {
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+    .trust-quote {
+      font-size: 1.3rem;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--steel-grey);
+    }
+
+    /* ----- CONTACT (dark form) ----- */
+    .contact {
+      padding: 120px 0;
+      background: var(--deep-navy);
+    }
+    .contact-card {
+      background: linear-gradient(145deg, var(--navy-light), var(--deep-navy));
+      border-radius: 30px;
+      padding: 50px;
+      max-width: 900px;
+      margin: 0 auto;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+    }
+    .contact-card h2 {
+      color: var(--white);
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--steel-grey);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: var(--deep-navy);
+      border: 1px solid #2a3b54;
+      color: var(--white);
+      padding: 15px 20px;
+      border-radius: 10px;
+      font-family: 'Lato', sans-serif;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.3s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--signal-blue);
+      background: #161f2e;
+    }
+    .contact-info {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 1px solid #2a3b54;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .contact-info a,
+    .contact-info span {
+      color: var(--steel-grey);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .contact-info a:hover {
+      color: var(--white);
+    }
+    .contact-info i {
+      color: var(--signal-blue);
+    }
+
+    /* ----- FOOTER ----- */
+    footer {
+      background-color: #0a0e14;
+      padding: 40px 0;
+      text-align: center;
+    }
+    footer p {
+      color: #7d8fa9;
+      font-size: 0.9rem;
+    }
+    footer a {
+      color: var(--blue-light);
+    }
+
+    /* ----- WHATSAPP FLOAT ----- */
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background-color: #25d366;
+      color: white;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 30px;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+      z-index: 999;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+
+    /* ----- RESPONSIVE ----- */
+    @media (max-width: 992px) {
+      .testimonial-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .trust-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+      .ba-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .desktop-nav {
+        display: none;
+      }
+      .menu-toggle {
+        display: block;
+      }
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .form-group.full-width {
+        grid-column: span 1;
+      }
+      .contact-card {
+        padding: 30px;
+      }
+      .portfolio-hero h1 {
+        font-size: 2.5rem;
+      }
+      .section-header h2 {
+        font-size: 2rem;
+      }
+      .before-after h2 {
+        font-size: 2rem;
+      }
+      .results-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .testimonial-grid {
+        grid-template-columns: 1fr;
+      }
+      .contact-info {
+        flex-direction: column;
+        align-items: center;
+      }
+      .portfolio-hero {
+        padding: 130px 0 60px;
+      }
+      .results-grid {
+        gap: 20px;
+      }
+      .result-stat h3 {
+        font-size: 2.5rem;
+      }
+      section {
+        scroll-margin-top: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="nav-container">
+      <div class="logo">
+        <h2>EXTREME <span>TECH</span></h2>
+      </div>
+
+      <!-- Desktop Nav -->
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="portfolio.html" class="active">Portfolio</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <a href="contact.html" class="cta-btn">Free Consultation</a>
+
+      <!-- Mobile Toggle -->
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileNav" aria-label="Toggle navigation menu">
+        <i class="fas fa-bars" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Nav -->
+    <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="portfolio.html" class="active">Portfolio</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <!-- ===== PORTFOLIO PAGE ===== -->
+  <main>
+
+    <!-- Hero -->
+    <section class="portfolio-hero">
+      <div class="container">
+        <h1>Our Work &amp; Results</h1>
+        <p>Real projects, real businesses, real growth. See how we've helped brands across Nigeria get found and grow online.</p>
+      </div>
+    </section>
+
+    <!-- Before & After Showcase -->
+    <section class="before-after">
+      <div class="container">
+        <h2 class="reveal">Before &amp; After: Map Accuracy</h2>
+        <p class="subtitle reveal">See how we put overlooked businesses on the map.</p>
+        <div class="ba-grid">
+          <div class="ba-card reveal">
+            <div class="ba-label before">Before Update</div>
+            <div class="ba-image" style="background-image: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); filter: grayscale(100%);"></div>
+          </div>
+          <div class="ba-card reveal">
+            <div class="ba-label after">After Accurate Adding</div>
+            <div class="ba-image" style="background-image: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); border: 4px solid var(--signal-blue);"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Metrics -->
+    <section class="results">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Impact We Deliver</h2>
+          <p>Numbers speak louder than words.</p>
+        </div>
+        <div class="results-grid">
+          <div class="result-stat reveal">
+            <h3>100%</h3>
+            <p>Visibility Improvement</p>
+          </div>
+          <div class="result-stat reveal">
+            <h3>50+</h3>
+            <p>New Customer Enquiries</p>
+          </div>
+          <div class="result-stat reveal">
+            <h3>24hrs</h3>
+            <p>Response Time</p>
+          </div>
+          <div class="result-stat reveal">
+            <h3>10+</h3>
+            <p>Industries Served</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Detailed Case Studies -->
+    <section class="portfolio">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Case Studies</h2>
+          <p>Detailed breakdowns of our recent projects.</p>
+        </div>
+        <div class="portfolio-grid">
+          <div class="portfolio-item reveal">
+            <div class="portfolio-image odogwu-bg"></div>
+            <div class="portfolio-info">
+              <h3>Odogwu Kitchen &amp; Bar</h3>
+              <span class="tag">Restaurant Branding &amp; Web</span>
+              <p class="desc">We built a stunning brand identity and website for this premium restaurant, helping them stand out in a competitive market and attract more diners. The new site features online ordering, a visual menu, and integrated location maps.</p>
+            </div>
+          </div>
+          <div class="portfolio-item reveal">
+            <div class="portfolio-image shepherd-bg"></div>
+            <div class="portfolio-info">
+              <h3>Shepherd Health Foundation</h3>
+              <span class="tag">NGO Visibility Setup</span>
+              <p class="desc">We set up their Google Business Profile and local SEO, making them easily discoverable by communities and partners looking for health advocacy. This resulted in increased partnership enquiries and community engagement.</p>
+            </div>
+          </div>
+          <div class="portfolio-item reveal">
+            <div class="portfolio-image navannah-bg"></div>
+            <div class="portfolio-info">
+              <h3>Navannah Unisex Saloon &amp; Spa</h3>
+              <span class="tag">Local SEO &amp; Maps</span>
+              <p class="desc">We optimized their Google Maps presence and local search visibility, resulting in increased walk-in customers and bookings. Their profile now appears accurately with photos, hours, and positive reviews.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Client Testimonials</h2>
+          <p>Words from the business owners we've worked with.</p>
+        </div>
+        <div class="testimonial-grid">
+          <div class="testimonial-card reveal">
+            <i class="fas fa-quote-left"></i>
+            <p>"Extreme Technologies transformed our online presence. We used to be invisible, but now our salon is easy to find, and bookings have gone through the roof!"</p>
+            <div class="testimonial-author">— Navannah Unisex Saloon &amp; Spa</div>
+            <div class="testimonial-role">Beauty &amp; Wellness</div>
+          </div>
+
+          <div class="testimonial-card reveal">
+            <i class="fas fa-quote-left"></i>
+            <p>"The website and branding they built for us completely changed how customers see our brand. Professional, fast, and reliable — we've seen a clear increase in new customers."</p>
+            <div class="testimonial-author">— Odogwu Kitchen &amp; Bar</div>
+            <div class="testimonial-role">Restaurant</div>
+          </div>
+
+          <div class="testimonial-card reveal">
+            <i class="fas fa-quote-left"></i>
+            <p>"We struggled to be found online. Now, our school's location and profile are perfectly accurate. We get more enquiries than ever before."</p>
+            <div class="testimonial-author">— Holy Infant Group of Schools</div>
+            <div class="testimonial-role">Education</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust / Guru Quote -->
+    <section class="trust">
+      <div class="container trust-inner">
+        <div class="trust-img reveal">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="SEO Strategist in Action" loading="lazy">
+        </div>
+        <div class="trust-text reveal">
+          <h2>The Guru Behind the Growth</h2>
+          <p class="trust-quote">"We put businesses on the map. From Oyo to Akwa Ibom, we make sure your customers can find you, trust you, and reach you—no matter where they are searching."</p>
+          <a href="contact.html" class="cta-btn" style="margin-top:20px;display:inline-block;">Work With Us</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact" style="scroll-margin-top:80px;">
+      <div class="container">
+        <div class="contact-card reveal">
+          <h2>Let's Talk Growth</h2>
+          <form action="https://formspree.io/f/yourFormID" method="POST">
+            <!-- ⚠️ Replace 'yourFormID' with a real Formspree endpoint or use your own backend -->
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" placeholder="John Doe" required>
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="+234..." required>
+              </div>
+              <div class="form-group full-width">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="your@email.com" required>
+              </div>
+              <div class="form-group full-width">
+                <label for="service">Service Interested In</label>
+                <select id="service" name="service">
+                  <option value="Web Design">Web Design</option>
+                  <option value="Web Development">Web Development</option>
+                  <option value="SEO">SEO</option>
+                  <option value="Google Business Profile">Google Business Profile</option>
+                  <option value="Social Media Management">Social Media Management</option>
+                  <option value="Meta Ads">Meta (Facebook &amp; Instagram) Ads</option>
+                  <option value="Google Ads">Google Ads</option>
+                  <option value="Branding">Branding &amp; Promotion</option>
+                  <option value="Content Strategy">Content Strategy</option>
+                </select>
+              </div>
+              <div class="form-group full-width">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" placeholder="Tell us about your business..."></textarea>
+              </div>
+              <div class="form-group full-width">
+                <button type="submit" class="cta-btn" style="width:100%;justify-content:center;">Send Message</button>
+              </div>
+            </div>
+          </form>
+
+          <div class="contact-info">
+            <a href="mailto:asikpoemediong@gmail.com"><i class="fas fa-envelope"></i> asikpoemediong@gmail.com</a>
+            <a href="tel:+2347016527052"><i class="fas fa-phone"></i> +234 701 652 7052</a>
+            <span><i class="fas fa-map-marker-alt"></i> Uyo, Akwa Ibom</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Extreme Technologies. All rights reserved. | <a href="mailto:asikpoemediong@gmail.com">asikpoemediong@gmail.com</a></p>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP FLOAT -->
+  <a href="https://wa.me/2347016527052?text=Hello%20Extreme%20Technologies!%20I%20want%20to%20grow%20my%20business." class="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+  </a>
+
+  <!-- SCRIPTS -->
+  <script>
+    (function() {
+      'use strict';
+
+      // ----- MOBILE MENU -----
+      const toggle = document.getElementById('menuToggle');
+      const mobileNav = document.getElementById('mobileNav');
+      const menuLinks = mobileNav.querySelectorAll('a');
+
+      function openMenu() {
+        mobileNav.classList.add('open');
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>';
+      }
+
+      function closeMenu() {
+        mobileNav.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.innerHTML = '<i class="fas fa-bars" aria-hidden="true"></i>';
+      }
+
+      function toggleMenu() {
+        if (mobileNav.classList.contains('open')) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      }
+
+      toggle.addEventListener('click', toggleMenu);
+
+      menuLinks.forEach(function(link) {
+        link.addEventListener('click', closeMenu);
+      });
+
+      document.addEventListener('click', function(e) {
+        const header = document.querySelector('header');
+        if (!header.contains(e.target) && mobileNav.classList.contains('open')) {
+          closeMenu();
+        }
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && mobileNav.classList.contains('open')) {
+          closeMenu();
+          toggle.focus();
+        }
+      });
+
+      // ----- SCROLL REVEAL (IntersectionObserver) -----
+      const revealElements = document.querySelectorAll('.reveal');
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        }, {
+          threshold: 0.15,
+          rootMargin: '0px 0px -40px 0px'
+        });
+
+        revealElements.forEach(function(el) {
+          observer.observe(el);
+        });
+      } else {
+        revealElements.forEach(function(el) {
+          el.classList.add('visible');
+        });
+      }
+
+    })();
+  </script>
+
+</body>
+</html>
